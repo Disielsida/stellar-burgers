@@ -7,14 +7,14 @@ import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   getIngredientsThunk,
-  ingredientSelector
+  ingredientsSelector
 } from '../../services/slices/ingredientsSlice';
 
 export const BurgerIngredients: FC = () => {
   /** TODO: взять переменные из стора */
   const dispatch = useDispatch();
 
-  const ingredients = useSelector(ingredientSelector);
+  const ingredients = useSelector(ingredientsSelector);
 
   useEffect(() => {
     if (!ingredients.length) {

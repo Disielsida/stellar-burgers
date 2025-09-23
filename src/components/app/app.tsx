@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { ROUTES } from '@utils-routes';
 import {
   ConstructorPage,
@@ -18,6 +18,9 @@ import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
 
 const App = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const background = location.state?.background;
 
   const handleBackFromModal = () => {
     navigate(-1);
@@ -27,7 +30,7 @@ const App = () => {
     <div className={styles.app}>
       <AppHeader />
 
-      <Routes>
+      <Routes location={background || location}>
         <Route path={ROUTES.HOME} element={<ConstructorPage />} />
         <Route path={ROUTES.FEED} element={<Feed />} />
         <Route path={ROUTES.LOGIN} element={<Login />} />
@@ -37,34 +40,37 @@ const App = () => {
         <Route path={ROUTES.PROFILE} element={<Profile />} />
         <Route path={ROUTES.PROFILE_ORDERS} element={<ProfileOrders />} />
         <Route path={ROUTES.NOT_FOUND} element={<NotFound404 />} />
+        <Route path={ROUTES.INGRIDIENT} element={<IngredientDetails />} />
       </Routes>
 
-      {/* <Routes>
-        <Route
-          path={ROUTES.FEED_ORDER}
-          element={
-            <Modal title='' onClose={handleBackFromModal}>
-              <OrderInfo />
-            </Modal>
-          }
-        />
-        <Route
-          path={ROUTES.PROFILE_ORDER}
-          element={
-            <Modal title='' onClose={handleBackFromModal}>
-              <OrderInfo />
-            </Modal>
-          }
-        />
-        <Route
-          path={ROUTES.INGRIDIENT}
-          element={
-            <Modal title='Детали ингредиента' onClose={handleBackFromModal}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
-      </Routes> */}
+      {background && (
+        <Routes>
+          <Route
+            path={ROUTES.FEED_ORDER}
+            element={
+              <Modal title='' onClose={handleBackFromModal}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path={ROUTES.PROFILE_ORDER}
+            element={
+              <Modal title='' onClose={handleBackFromModal}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path={ROUTES.INGRIDIENT}
+            element={
+              <Modal title='Детали ингредиента' onClose={handleBackFromModal}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };

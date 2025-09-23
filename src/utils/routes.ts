@@ -9,6 +9,6 @@ export const ROUTES = {
   PROFILE: '/profile',
   PROFILE_ORDERS: '/profile/orders',
   PROFILE_ORDER: 'profile/orders/:number',
-  INGRIDIENT: 'ingridients/:id',
+  INGRIDIENT: 'ingredients/:id',
   NOT_FOUND: '*'
 } as const;

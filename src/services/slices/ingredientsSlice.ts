@@ -1,6 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 import { TIngredient } from '@utils-types';
+import { RootState } from '../store';
 
 export const getIngredientsThunk = createAsyncThunk(
   'ingredients/getIngredients',
@@ -27,7 +28,7 @@ const ingredientsSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    ingredientSelector: (state) => state.items,
+    ingredientsSelector: (state) => state.items,
     loadingSelector: (state) => state.loading,
     errorSelector: (state) => state.error
   },
@@ -36,21 +37,22 @@ const ingredientsSlice = createSlice({
       .addCase(getIngredientsThunk.pending, (state, action) => {
         state.loading = true;
         state.error = null;
-        console.log('запрашиваю ингредиенты');
       })
       .addCase(getIngredientsThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-        console.log(state.items, 'ингридиенты загрузились');
       })
       .addCase(getIngredientsThunk.rejected, (state, action) => {
         state.error = action.error.message || 'Ошибка загрузки ингридиентов';
         state.loading = false;
-        console.error(action.error.message, 'ошибка загрузкии ингредиентов');
+        console.error(action.error.message);
       });
   }
 });
 
+export const getIngredientByIdSelector = (_id: string) => (state: RootState) =>
+  state.ingredients.items.find((item) => item._id === _id) || null;
+
 export const ingridientsReducer = ingredientsSlice.reducer;
-export const { ingredientSelector, loadingSelector, errorSelector } =
+export const { ingredientsSelector, loadingSelector, errorSelector } =
   ingredientsSlice.selectors;
