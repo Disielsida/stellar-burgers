@@ -39,7 +39,7 @@ const App = () => {
         <Route path={ROUTES.NOT_FOUND} element={<NotFound404 />} />
       </Routes>
 
-      <Routes>
+      {/* <Routes>
         <Route
           path={ROUTES.FEED_ORDER}
           element={
@@ -64,7 +64,7 @@ const App = () => {
             </Modal>
           }
         />
-      </Routes>
+      </Routes> */}
     </div>
   );
 };
