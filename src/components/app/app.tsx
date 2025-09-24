@@ -16,7 +16,17 @@ import styles from './app.module.css';
 
 import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
 
+import { useEffect } from 'react';
+import { useDispatch } from '../../services/store';
+import { getIngredientsThunk } from '../../services/slices/ingredientsSlice';
+
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getIngredientsThunk());
+  }, []);
+
   const navigate = useNavigate();
   const location = useLocation();
 

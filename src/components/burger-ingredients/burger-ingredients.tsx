@@ -4,7 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 
-import { useDispatch, useSelector } from '../../services/store';
+import { useSelector } from '../../services/store';
 import {
   getIngredientsThunk,
   ingredientsSelector
@@ -12,15 +12,7 @@ import {
 
 export const BurgerIngredients: FC = () => {
   /** TODO: взять переменные из стора */
-  const dispatch = useDispatch();
-
   const ingredients = useSelector(ingredientsSelector);
-
-  useEffect(() => {
-    if (!ingredients.length) {
-      dispatch(getIngredientsThunk());
-    }
-  }, [ingredients.length]);
 
   const buns = ingredients.filter((ingredient) => ingredient.type === 'bun');
   const mains = ingredients.filter((ingredient) => ingredient.type === 'main');
