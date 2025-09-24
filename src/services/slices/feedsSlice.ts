@@ -30,7 +30,7 @@ const feedSlice = createSlice({
   selectors: {
     feedsSelector: (state) => state.feeds,
     feedsTotalSelector: (state) => state.feedsTotal,
-    feedsTotalToday: (state) => state.feedsTotalToday,
+    feedsTotalTodaySelector: (state) => state.feedsTotalToday,
     feedsLoadingSelector: (state) => state.loading,
     feedsErrorSelector: (state) => state.error
   },
@@ -57,7 +57,7 @@ const feedSlice = createSlice({
 export const {
   feedsSelector,
   feedsTotalSelector,
-  feedsTotalToday,
+  feedsTotalTodaySelector,
   feedsLoadingSelector,
   feedsErrorSelector
 } = feedSlice.selectors;
