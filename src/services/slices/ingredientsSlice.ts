@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';
 import { TIngredient } from '@utils-types';
 import { RootState } from '../store';
@@ -29,7 +29,7 @@ const ingredientsSlice = createSlice({
   reducers: {},
   selectors: {
     ingredientsSelector: (state) => state.items,
-    loadingSelector: (state) => state.loading,
+    ingredientsLoadingSelector: (state) => state.loading,
     errorSelector: (state) => state.error
   },
   extraReducers: (builder) => {
@@ -54,5 +54,8 @@ export const getIngredientByIdSelector = (_id: string) => (state: RootState) =>
   state.ingredients.items.find((item) => item._id === _id) || null;
 
 export const ingridientsReducer = ingredientsSlice.reducer;
-export const { ingredientsSelector, loadingSelector, errorSelector } =
-  ingredientsSlice.selectors;
+export const {
+  ingredientsSelector,
+  ingredientsLoadingSelector,
+  errorSelector
+} = ingredientsSlice.selectors;
