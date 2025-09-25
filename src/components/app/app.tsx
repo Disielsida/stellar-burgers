@@ -26,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredientsThunk());
-    dispatch(getFeedsThunk());
+    // dispatch(getFeedsThunk());
   }, []);
 
   const navigate = useNavigate();

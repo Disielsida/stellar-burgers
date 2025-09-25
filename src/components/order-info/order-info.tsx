@@ -6,12 +6,23 @@ import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from '../../services/store';
 import { ingredientsSelector } from '../../services/slices/ingredientsSlice';
-import { getFeedByNumber } from '../../services/slices/feedsSlice';
+import {
+  getFeedByNumber,
+  currentFeedSelector
+} from '../../services/slices/feedsSlice';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
   const { number } = useParams<{ number?: string }>();
-  const orderData = useSelector(getFeedByNumber(Number(number)));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (number) {
+      dispatch(getFeedByNumber(Number(number)));
+    }
+  }, [number]);
+
+  const orderData = useSelector(currentFeedSelector);
 
   const ingredients: TIngredient[] = useSelector(ingredientsSelector);
 
