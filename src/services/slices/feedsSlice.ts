@@ -46,7 +46,6 @@ const feedSlice = createSlice({
         state.feedsTotal = action.payload.total;
         state.feedsTotalToday = action.payload.totalToday;
         state.loading = false;
-        console.log(action.payload.orders);
       })
       .addCase(getFeedsThunk.rejected, (state, action) => {
         state.error = action.error.message || 'Ошибка загрузки ленты';
