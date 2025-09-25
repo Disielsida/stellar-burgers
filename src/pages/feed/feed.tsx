@@ -15,10 +15,6 @@ export const Feed: FC = () => {
     dispatch(getFeedsThunk());
   };
 
-  useEffect(() => {
-    handleGetFeeds();
-  }, []);
-
   const orders: TOrder[] = useSelector(feedsSelector);
 
   if (!orders.length) {

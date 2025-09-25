@@ -19,12 +19,14 @@ import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
 import { useEffect } from 'react';
 import { useDispatch } from '../../services/store';
 import { getIngredientsThunk } from '../../services/slices/ingredientsSlice';
+import { getFeedsThunk } from '../../services/slices/feedsSlice';
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredientsThunk());
+    dispatch(getFeedsThunk());
   }, []);
 
   const navigate = useNavigate();
@@ -51,6 +53,7 @@ const App = () => {
         <Route path={ROUTES.PROFILE_ORDERS} element={<ProfileOrders />} />
         <Route path={ROUTES.NOT_FOUND} element={<NotFound404 />} />
         <Route path={ROUTES.INGRIDIENT} element={<IngredientDetails />} />
+        <Route path={ROUTES.FEED_ORDER} element={<OrderInfo />} />
       </Routes>
 
       {background && (

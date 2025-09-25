@@ -54,6 +54,7 @@ export const getIngredientByIdSelector = (_id: string) => (state: RootState) =>
   state.ingredients.items.find((item) => item._id === _id) || null;
 
 export const ingridientsReducer = ingredientsSlice.reducer;
+
 export const {
   ingredientsSelector,
   ingredientsLoadingSelector,

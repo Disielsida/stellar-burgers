@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi } from '@api';
 import { TOrder } from '@utils-types';
+import { RootState } from '../store';
 
 export const getFeedsThunk = createAsyncThunk('feeds/getFeeds', async () => {
   const res = await getFeedsApi();
@@ -45,6 +46,7 @@ const feedSlice = createSlice({
         state.feedsTotal = action.payload.total;
         state.feedsTotalToday = action.payload.totalToday;
         state.loading = false;
+        console.log(action.payload.orders);
       })
       .addCase(getFeedsThunk.rejected, (state, action) => {
         state.error = action.error.message || 'Ошибка загрузки ленты';
@@ -53,6 +55,9 @@ const feedSlice = createSlice({
       });
   }
 });
+
+export const getFeedByNumber = (number: number) => (state: RootState) =>
+  state.feeds.feeds.find((feed) => feed.number === number) || null;
 
 export const {
   feedsSelector,
