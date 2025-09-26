@@ -51,9 +51,11 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
       <NavLink
         to={ROUTES.LOGIN}
         className={({ isActive }) =>
-          isActive
-            ? clsx(styles.link_position_last, styles.link_active)
-            : styles.link_position_last
+          clsx(
+            styles.link,
+            styles.link_position_last,
+            isActive && styles.link_active
+          )
         }
       >
         {({ isActive }) => (
