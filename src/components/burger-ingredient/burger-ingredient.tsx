@@ -15,12 +15,12 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     const dispatch = useDispatch();
 
     const handleAdd = () => {
-      // dispatch(
-      //   addConstructorItem({
-      //     id: nanoid(),
-      //     ...ingredient
-      //   })
-      // );
+      dispatch(
+        addConstructorItem({
+          id: nanoid(),
+          ...ingredient
+        })
+      );
     };
 
     return (

@@ -28,6 +28,25 @@ const constructorSlice = createSlice({
       } else {
         state.items.ingredients.push(action.payload);
       }
+    },
+    removeConstructorItem: (state, action: PayloadAction<string>) => {
+      state.items.ingredients = state.items.ingredients.filter(
+        (ingredient) => ingredient.id !== action.payload
+      );
+    },
+    moveUpConstructorItem: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      const ingredient = state.items.ingredients[index];
+
+      state.items.ingredients.splice(index, 1);
+      state.items.ingredients.splice(index - 1, 0, ingredient);
+    },
+    moveDownConstructorItem: (state, action: PayloadAction<number>) => {
+      const index = action.payload;
+      const ingredient = state.items.ingredients[index];
+
+      state.items.ingredients.splice(index, 1);
+      state.items.ingredients.splice(index + 1, 0, ingredient);
     }
   },
   selectors: {
@@ -36,5 +55,10 @@ const constructorSlice = createSlice({
 });
 
 export const constructorReducer = constructorSlice.reducer;
-export const { addConstructorItem } = constructorSlice.actions;
+export const {
+  addConstructorItem,
+  removeConstructorItem,
+  moveUpConstructorItem,
+  moveDownConstructorItem
+} = constructorSlice.actions;
 export const { constructorItemsSelector } = constructorSlice.selectors;
