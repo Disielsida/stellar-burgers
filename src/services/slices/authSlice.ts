@@ -124,6 +124,8 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
         console.error(action.error.message);
         state.userData = null;
+
+        console.log('111');
       })
       .addCase(logoutThunk.pending, (state) => {
         state.loading = true;

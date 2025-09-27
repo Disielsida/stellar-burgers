@@ -14,7 +14,13 @@ import {
 import '../../index.css';
 import styles from './app.module.css';
 
-import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
+import {
+  AppHeader,
+  Modal,
+  OrderInfo,
+  IngredientDetails,
+  ProtectedRoute
+} from '@components';
 
 import { useEffect } from 'react';
 import { useDispatch } from '../../services/store';
@@ -48,15 +54,65 @@ const App = () => {
       <Routes location={background || location}>
         <Route path={ROUTES.HOME} element={<ConstructorPage />} />
         <Route path={ROUTES.FEED} element={<Feed />} />
-        <Route path={ROUTES.LOGIN} element={<Login />} />
-        <Route path={ROUTES.REGISTER} element={<Register />} />
-        <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
-        <Route path={ROUTES.RESET_PASSWORD} element={<ResetPassword />} />
-        <Route path={ROUTES.PROFILE} element={<Profile />} />
-        <Route path={ROUTES.PROFILE_ORDERS} element={<ProfileOrders />} />
+        <Route
+          path={ROUTES.LOGIN}
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.REGISTER}
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.FORGOT_PASSWORD}
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.RESET_PASSWORD}
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ResetPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.PROFILE}
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={ROUTES.PROFILE_ORDERS}
+          element={
+            <ProtectedRoute>
+              <ProfileOrders />
+            </ProtectedRoute>
+          }
+        />
         <Route path={ROUTES.NOT_FOUND} element={<NotFound404 />} />
         <Route path={ROUTES.INGRIDIENT} element={<IngredientDetails />} />
         <Route path={ROUTES.FEED_ORDER} element={<OrderInfo />} />
+        <Route
+          path={ROUTES.PROFILE_ORDER}
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       {background && (
@@ -72,9 +128,11 @@ const App = () => {
           <Route
             path={ROUTES.PROFILE_ORDER}
             element={
-              <Modal title='' onClose={handleBackFromModal}>
-                <OrderInfo />
-              </Modal>
+              <ProtectedRoute>
+                <Modal title='' onClose={handleBackFromModal}>
+                  <OrderInfo />
+                </Modal>
+              </ProtectedRoute>
             }
           />
           <Route
