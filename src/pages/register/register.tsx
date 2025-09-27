@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent, useState, useLayoutEffect } from 'react';
+import { FC, SyntheticEvent, useState, useEffect } from 'react';
 import { RegisterUI } from '@ui-pages';
 
 import { useDispatch, useSelector } from '../../services/store';
@@ -18,7 +18,7 @@ export const Register: FC = () => {
 
   const isAuthenticated = useSelector(isAuthenticatedSelector);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (isAuthenticated) {
       navigate(ROUTES.PROFILE, { replace: true });
     }

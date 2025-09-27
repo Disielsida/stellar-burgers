@@ -1,5 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { registerUserApi, loginUserApi, TLoginData, TRegisterData } from '@api';
+import {
+  registerUserApi,
+  loginUserApi,
+  TLoginData,
+  TRegisterData,
+  getUserApi,
+  logoutApi
+} from '@api';
 import { TUser } from '@utils-types';
 import { setCookie } from '../../utils/cookie';
 
@@ -22,6 +29,18 @@ export const registerUserThunk = createAsyncThunk(
     return res;
   }
 );
+
+export const getUserThunk = createAsyncThunk('auth/getUser', async () => {
+  const res = await getUserApi();
+  return res;
+});
+
+export const logoutThunk = createAsyncThunk('auth/logout', async () => {
+  const res = await logoutApi();
+  setCookie('accessToken', '', { expires: -1 });
+  localStorage.removeItem('refreshToken');
+  return res;
+});
 
 type AuthStore = {
   isAuthChecked: boolean;
@@ -66,7 +85,9 @@ const authSlice = createSlice({
         state.error = action.error.message || 'Ошибка входа в аккаунт';
         state.loading = false;
         state.isAuthChecked = true;
+        state.isAuthenticated = false;
         console.error(action.error.message);
+        state.userData = null;
       })
       .addCase(registerUserThunk.pending, (state) => {
         state.loading = true;
@@ -82,6 +103,41 @@ const authSlice = createSlice({
         state.error = action.error.message || 'Ошибка регистрации';
         state.loading = false;
         state.isAuthChecked = true;
+        state.isAuthenticated = false;
+        console.error(action.error.message);
+        state.userData = null;
+      })
+      .addCase(getUserThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getUserThunk.fulfilled, (state, action) => {
+        state.userData = action.payload.user;
+        state.isAuthenticated = true;
+        state.isAuthChecked = true;
+        state.loading = false;
+      })
+      .addCase(getUserThunk.rejected, (state, action) => {
+        state.error = action.error.message || 'Ошибка получения пользователя';
+        state.loading = false;
+        state.isAuthChecked = true;
+        state.isAuthenticated = false;
+        console.error(action.error.message);
+        state.userData = null;
+      })
+      .addCase(logoutThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logoutThunk.fulfilled, (state) => {
+        state.loading = false;
+        state.userData = null;
+        state.isAuthenticated = false;
+        state.isAuthChecked = true;
+      })
+      .addCase(logoutThunk.rejected, (state, action) => {
+        state.error = action.error.message || 'Ошибка выхода из аккаунта';
+        state.loading = false;
         console.error(action.error.message);
       });
   }

@@ -19,12 +19,17 @@ import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
 import { useEffect } from 'react';
 import { useDispatch } from '../../services/store';
 import { getIngredientsThunk } from '../../services/slices/ingredientsSlice';
+import { getUserThunk } from '../../services/slices/authSlice';
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredientsThunk());
+  }, []);
+
+  useEffect(() => {
+    dispatch(getUserThunk());
   }, []);
 
   const navigate = useNavigate();
