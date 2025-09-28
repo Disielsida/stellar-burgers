@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { isAuthenticatedSelector } from '../../services/slices/authSlice';
 import { ROUTES } from '@utils-routes';
 import { getFeedsThunk } from '../../services/slices/feedsSlice';
+import { getOrdersThunk } from '../../services/slices/ordersSlice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
@@ -49,6 +50,7 @@ export const BurgerConstructor: FC = () => {
       .then(() => {
         dispatch(clearConstructorItems());
         dispatch(getFeedsThunk());
+        dispatch(getOrdersThunk());
       });
   };
 

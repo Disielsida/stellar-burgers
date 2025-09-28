@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { TOrder, TOrdersData } from '@utils-types';
-import { orderBurgerApi, getOrderByNumberApi } from '@api';
+import { TOrder } from '@utils-types';
+import { orderBurgerApi, getOrderByNumberApi, getOrdersApi } from '@api';
 
 export const orderBurgerThunk = createAsyncThunk(
   'orders/orderBurger',
@@ -18,11 +18,15 @@ export const getOrderByNumber = createAsyncThunk(
   }
 );
 
+export const getOrdersThunk = createAsyncThunk('orders/getOrders', async () => {
+  const res = await getOrdersApi();
+  return res;
+});
+
 type OrdersStore = {
   orders: TOrder[];
-  ordersTotal: number;
-  ordersTotalToday: number;
   currentOrder: TOrder | null;
+  ordersLoaded: boolean;
 
   orderModalData: TOrder | null;
   orderRequest: boolean;
@@ -32,9 +36,8 @@ type OrdersStore = {
 
 const initialState: OrdersStore = {
   orders: [],
-  ordersTotal: 0,
-  ordersTotalToday: 0,
   currentOrder: null,
+  ordersLoaded: false,
 
   orderModalData: null,
   orderRequest: false,
@@ -53,9 +56,8 @@ const ordersSlice = createSlice({
   },
   selectors: {
     ordersSelector: (state) => state.orders,
-    ordersTotalSelector: (state) => state.ordersTotal,
-    ordersTotalTodaySelector: (state) => state.ordersTotalToday,
     currentOrderSelector: (state) => state.currentOrder,
+    ordersLoadedSelector: (state) => state.ordersLoaded,
     orderModalDataSelector: (state) => state.orderModalData,
     orderRequestSelector: (state) => state.orderRequest,
     orderLoadingSelector: (state) => state.loading,
@@ -88,15 +90,28 @@ const ordersSlice = createSlice({
         state.error = action.error.message || 'Ошибка загрузки заказа';
         state.loading = false;
         console.error(action.error.message);
+      })
+      .addCase(getOrdersThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getOrdersThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload;
+        state.ordersLoaded = true;
+      })
+      .addCase(getOrdersThunk.rejected, (state, action) => {
+        state.error = action.error.message || 'Ошибка загрузки ленты';
+        state.loading = false;
+        console.error(action.error.message);
       });
   }
 });
 
 export const {
   ordersSelector,
-  ordersTotalSelector,
-  ordersTotalTodaySelector,
   currentOrderSelector,
+  ordersLoadedSelector,
   orderModalDataSelector,
   orderRequestSelector,
   orderLoadingSelector,
