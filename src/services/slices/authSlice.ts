@@ -128,10 +128,10 @@ const authSlice = createSlice({
       .addCase(logoutThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.userData = null;
       })
       .addCase(logoutThunk.fulfilled, (state) => {
         state.loading = false;
-        state.userData = null;
         state.isAuthenticated = false;
         state.isAuthChecked = true;
       })

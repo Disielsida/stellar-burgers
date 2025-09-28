@@ -32,7 +32,7 @@ export const ProtectedRoute = ({
   }
 
   if (onlyUnAuth && isAuthenticated) {
-    const from = location.state?.from || { pathname: ROUTES.HOME };
+    const from = location.state?.from || { pathname: ROUTES.PROFILE };
     return <Navigate to={from} />;
   }
 

@@ -1,19 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getFeedsApi, getOrderByNumberApi } from '@api';
+import { getFeedsApi } from '@api';
 import { TOrder } from '@utils-types';
 
 export const getFeedsThunk = createAsyncThunk('feeds/getFeeds', async () => {
   const res = await getFeedsApi();
   return res;
 });
-
-export const getFeedByNumber = createAsyncThunk(
-  'feeds/getFeedByNumber',
-  async (number: number) => {
-    const res = await getOrderByNumberApi(number);
-    return res;
-  }
-);
 
 type FeedsStore = {
   feeds: TOrder[];
@@ -59,19 +51,6 @@ const feedSlice = createSlice({
       })
       .addCase(getFeedsThunk.rejected, (state, action) => {
         state.error = action.error.message || 'Ошибка загрузки ленты';
-        state.loading = false;
-        console.error(action.error.message);
-      })
-      .addCase(getFeedByNumber.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getFeedByNumber.fulfilled, (state, action) => {
-        state.currentFeed = action.payload.orders[0];
-        state.loading = false;
-      })
-      .addCase(getFeedByNumber.rejected, (state, action) => {
-        state.error = action.error.message || 'Ошибка загрузки заказа';
         state.loading = false;
         console.error(action.error.message);
       });

@@ -7,9 +7,9 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from '../../services/store';
 import { ingredientsSelector } from '../../services/slices/ingredientsSlice';
 import {
-  getFeedByNumber,
-  currentFeedSelector
-} from '../../services/slices/feedsSlice';
+  currentOrderSelector,
+  getOrderByNumber
+} from '../../services/slices/ordersSlice';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
@@ -18,11 +18,11 @@ export const OrderInfo: FC = () => {
 
   useEffect(() => {
     if (number) {
-      dispatch(getFeedByNumber(Number(number)));
+      dispatch(getOrderByNumber(Number(number)));
     }
   }, [number]);
 
-  const orderData = useSelector(currentFeedSelector);
+  const orderData = useSelector(currentOrderSelector);
 
   const ingredients: TIngredient[] = useSelector(ingredientsSelector);
 
