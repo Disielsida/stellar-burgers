@@ -1,8 +1,10 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 
-import { useSelector } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 import { userDataSelector } from '../../services/slices/authSlice';
+import { TRegisterData } from '@api';
+import { updateUserThunk } from '../../services/slices/authSlice';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
@@ -13,6 +15,8 @@ export const Profile: FC = () => {
     email: user?.email || '',
     password: ''
   });
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setFormValue((prevState) => ({
@@ -29,6 +33,22 @@ export const Profile: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+
+    const newUser: Partial<TRegisterData> = {};
+
+    if (formValue.name !== user?.name) {
+      newUser.name = formValue.name;
+    }
+
+    if (formValue.email !== user?.email) {
+      newUser.email = formValue.email;
+    }
+
+    if (formValue.password) {
+      newUser.password = formValue.password;
+    }
+
+    dispatch(updateUserThunk(newUser));
   };
 
   const handleCancel = (e: SyntheticEvent) => {

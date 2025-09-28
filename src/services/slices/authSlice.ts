@@ -5,7 +5,8 @@ import {
   TLoginData,
   TRegisterData,
   getUserApi,
-  logoutApi
+  logoutApi,
+  updateUserApi
 } from '@api';
 import { TUser } from '@utils-types';
 import { setCookie } from '../../utils/cookie';
@@ -41,6 +42,14 @@ export const logoutThunk = createAsyncThunk('auth/logout', async () => {
   localStorage.removeItem('refreshToken');
   return res;
 });
+
+export const updateUserThunk = createAsyncThunk(
+  'auth/updateUser',
+  async (user: Partial<TRegisterData>) => {
+    const res = await updateUserApi(user);
+    return res;
+  }
+);
 
 type AuthStore = {
   isAuthChecked: boolean;
@@ -137,6 +146,19 @@ const authSlice = createSlice({
       })
       .addCase(logoutThunk.rejected, (state, action) => {
         state.error = action.error.message || 'Ошибка выхода из аккаунта';
+        state.loading = false;
+        console.error(action.error.message);
+      })
+      .addCase(updateUserThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userData = action.payload.user;
+      })
+      .addCase(updateUserThunk.rejected, (state, action) => {
+        state.error = action.error.message || 'Ошибка обновления данных';
         state.loading = false;
         console.error(action.error.message);
       });
