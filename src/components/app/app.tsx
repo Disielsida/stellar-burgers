@@ -25,6 +25,7 @@ import {
 import { useEffect } from 'react';
 import { useDispatch } from '../../services/store';
 import { getIngredientsThunk } from '../../services/slices/ingredientsSlice';
+import { getFeedsThunk } from '../../services/slices/feedsSlice';
 import { getUserThunk } from '../../services/slices/authSlice';
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredientsThunk());
+    dispatch(getFeedsThunk());
   }, []);
 
   useEffect(() => {

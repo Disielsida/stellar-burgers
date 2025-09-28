@@ -13,6 +13,10 @@ import {
   orderModalDataSelector,
   clearOrderData
 } from '../../services/slices/ordersSlice';
+import { useNavigate } from 'react-router-dom';
+import { isAuthenticatedSelector } from '../../services/slices/authSlice';
+import { ROUTES } from '@utils-routes';
+import { getFeedsThunk } from '../../services/slices/feedsSlice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
@@ -24,8 +28,16 @@ export const BurgerConstructor: FC = () => {
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector(isAuthenticatedSelector);
+
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+
+    if (!isAuthenticated) {
+      navigate(ROUTES.LOGIN);
+      return;
+    }
 
     const ingredientsIds = [
       constructorItems.bun?._id,
@@ -34,7 +46,10 @@ export const BurgerConstructor: FC = () => {
 
     dispatch(orderBurgerThunk(ingredientsIds))
       .unwrap()
-      .then(() => dispatch(clearConstructorItems()));
+      .then(() => {
+        dispatch(clearConstructorItems());
+        dispatch(getFeedsThunk());
+      });
   };
 
   const closeOrderModal = () => {

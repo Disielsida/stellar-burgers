@@ -57,7 +57,6 @@ const ordersSlice = createSlice({
         state.error = null;
       })
       .addCase(orderBurgerThunk.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.orderRequest = false;
         state.orderModalData = action.payload.order;
       })
