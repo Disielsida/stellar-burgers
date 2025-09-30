@@ -4,24 +4,18 @@ import { orderBurgerApi, getOrderByNumberApi, getOrdersApi } from '@api';
 
 export const orderBurgerThunk = createAsyncThunk(
   'orders/orderBurger',
-  async (data: string[]) => {
-    const res = await orderBurgerApi(data);
-    return res;
-  }
+  orderBurgerApi
 );
 
 export const getOrderByNumber = createAsyncThunk(
   'order/getOrderByNumber',
-  async (number: number) => {
-    const res = await getOrderByNumberApi(number);
-    return res;
-  }
+  getOrderByNumberApi
 );
 
-export const getOrdersThunk = createAsyncThunk('orders/getOrders', async () => {
-  const res = await getOrdersApi();
-  return res;
-});
+export const getOrdersThunk = createAsyncThunk(
+  'orders/getOrders',
+  getOrdersApi
+);
 
 type OrdersStore = {
   orders: TOrder[];

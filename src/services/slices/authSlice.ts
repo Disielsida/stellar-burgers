@@ -31,10 +31,7 @@ export const registerUserThunk = createAsyncThunk(
   }
 );
 
-export const getUserThunk = createAsyncThunk('auth/getUser', async () => {
-  const res = await getUserApi();
-  return res;
-});
+export const getUserThunk = createAsyncThunk('auth/getUser', getUserApi);
 
 export const logoutThunk = createAsyncThunk('auth/logout', async () => {
   const res = await logoutApi();
@@ -45,10 +42,7 @@ export const logoutThunk = createAsyncThunk('auth/logout', async () => {
 
 export const updateUserThunk = createAsyncThunk(
   'auth/updateUser',
-  async (user: Partial<TRegisterData>) => {
-    const res = await updateUserApi(user);
-    return res;
-  }
+  updateUserApi
 );
 
 type AuthStore = {
