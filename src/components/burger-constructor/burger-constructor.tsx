@@ -51,8 +51,6 @@ export const BurgerConstructor: FC = () => {
       .unwrap()
       .then(() => {
         dispatch(clearConstructorItems());
-        dispatch(getFeedsThunk());
-        dispatch(getOrdersThunk());
       });
   };
 

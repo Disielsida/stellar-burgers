@@ -24,16 +24,14 @@ import {
 
 import { useEffect } from 'react';
 import { useDispatch } from '../../services/store';
-import { getIngredientsThunk } from '../../services/slices/ingredientsSlice';
-import { getFeedsThunk } from '../../services/slices/feedsSlice';
 import { getUserThunk } from '../../services/slices/authSlice';
+import { getIngredientsThunk } from '../../services/slices/ingredientsSlice';
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredientsThunk());
-    dispatch(getFeedsThunk());
   }, []);
 
   useEffect(() => {
