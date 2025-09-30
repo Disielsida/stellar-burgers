@@ -13,7 +13,7 @@ import {
   orderModalDataSelector,
   clearOrderData
 } from '../../services/slices/ordersSlice';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { isAuthenticatedSelector } from '../../services/slices/authSlice';
 import { ROUTES } from '@utils-routes';
 import { getFeedsThunk } from '../../services/slices/feedsSlice';
@@ -29,14 +29,16 @@ export const BurgerConstructor: FC = () => {
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
   const isAuthenticated = useSelector(isAuthenticatedSelector);
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
 
     if (!isAuthenticated) {
-      navigate(ROUTES.LOGIN);
+      navigate(ROUTES.LOGIN, { state: { from: location } });
       return;
     }
 
