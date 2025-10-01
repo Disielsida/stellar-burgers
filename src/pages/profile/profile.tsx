@@ -1,16 +1,17 @@
 import { ProfileUI } from '@ui-pages';
-import { FC, SyntheticEvent, useEffect, useState } from 'react';
+import { FC, SyntheticEvent, useEffect } from 'react';
 
 import { useSelector, useDispatch } from '../../services/store';
 import { userDataSelector } from '../../services/slices/authSlice';
 import { TRegisterData } from '@api';
 import { updateUserThunk } from '../../services/slices/authSlice';
+import { useForm } from '../../hooks/useForm';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
   const user = useSelector(userDataSelector);
 
-  const [formValue, setFormValue] = useState({
+  const { values, handleChange, setValues } = useForm({
     name: user?.name || '',
     email: user?.email || '',
     password: ''
@@ -19,33 +20,34 @@ export const Profile: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setFormValue((prevState) => ({
+    setValues((prevState) => ({
       ...prevState,
       name: user?.name || '',
-      email: user?.email || ''
+      email: user?.email || '',
+      password: ''
     }));
   }, [user]);
 
   const isFormChanged =
-    formValue.name !== user?.name ||
-    formValue.email !== user?.email ||
-    !!formValue.password;
+    values.name !== user?.name ||
+    values.email !== user?.email ||
+    !!values.password;
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
 
     const newUser: Partial<TRegisterData> = {};
 
-    if (formValue.name !== user?.name) {
-      newUser.name = formValue.name;
+    if (values.name !== user?.name) {
+      newUser.name = values.name;
     }
 
-    if (formValue.email !== user?.email) {
-      newUser.email = formValue.email;
+    if (values.email !== user?.email) {
+      newUser.email = values.email;
     }
 
-    if (formValue.password) {
-      newUser.password = formValue.password;
+    if (values.password) {
+      newUser.password = values.password;
     }
 
     dispatch(updateUserThunk(newUser));
@@ -53,27 +55,20 @@ export const Profile: FC = () => {
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
-    setFormValue({
+    setValues({
       name: user?.name || '',
       email: user?.email || '',
       password: ''
     });
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value
-    }));
-  };
-
   return (
     <ProfileUI
-      formValue={formValue}
+      values={values}
       isFormChanged={isFormChanged}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
-      handleInputChange={handleInputChange}
+      handleChange={handleChange}
     />
   );
 };

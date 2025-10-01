@@ -1,13 +1,16 @@
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent } from 'react';
 import { RegisterUI } from '@ui-pages';
 
 import { useDispatch } from '../../services/store';
 import { registerUserThunk } from '../../services/slices/authSlice';
+import { useForm } from '../../hooks/useForm';
 
 export const Register: FC = () => {
-  const [userName, setUserName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { values, handleChange } = useForm({
+    name: '',
+    email: '',
+    password: ''
+  });
 
   const dispatch = useDispatch();
 
@@ -16,9 +19,9 @@ export const Register: FC = () => {
 
     dispatch(
       registerUserThunk({
-        name: userName,
-        email,
-        password
+        name: values.name,
+        email: values.email,
+        password: values.password
       })
     );
   };
@@ -26,12 +29,8 @@ export const Register: FC = () => {
   return (
     <RegisterUI
       errorText=''
-      email={email}
-      userName={userName}
-      password={password}
-      setEmail={setEmail}
-      setPassword={setPassword}
-      setUserName={setUserName}
+      values={values}
+      handleChange={handleChange}
       handleSubmit={handleSubmit}
     />
   );

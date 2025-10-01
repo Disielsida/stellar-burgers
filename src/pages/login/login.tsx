@@ -3,10 +3,10 @@ import { LoginUI } from '@ui-pages';
 
 import { useDispatch } from '../../services/store';
 import { loginUserThunk } from '../../services/slices/authSlice';
+import { useForm } from '../../hooks/useForm';
 
 export const Login: FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { values, handleChange } = useForm({ email: '', password: '' });
 
   const dispatch = useDispatch();
 
@@ -15,8 +15,8 @@ export const Login: FC = () => {
 
     dispatch(
       loginUserThunk({
-        email,
-        password
+        email: values.email,
+        password: values.password
       })
     );
   };
@@ -24,10 +24,8 @@ export const Login: FC = () => {
   return (
     <LoginUI
       errorText=''
-      email={email}
-      setEmail={setEmail}
-      password={password}
-      setPassword={setPassword}
+      values={values}
+      handleChange={handleChange}
       handleSubmit={handleSubmit}
     />
   );

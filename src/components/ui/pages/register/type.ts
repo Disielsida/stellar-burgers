@@ -1,9 +1,7 @@
-import { Dispatch, SetStateAction } from 'react';
-import { PageUIProps } from '../common-type';
+import { BaseFormUIProps } from '../form-types';
 
-export type RegisterUIProps = PageUIProps & {
+export type RegisterUIProps = BaseFormUIProps<{
+  name: string;
+  email: string;
   password: string;
-  userName: string;
-  setPassword: Dispatch<SetStateAction<string>>;
-  setUserName: Dispatch<SetStateAction<string>>;
-};
+}>;

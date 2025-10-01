@@ -1,9 +1,6 @@
-import { Dispatch, SetStateAction } from 'react';
-import { PageUIProps } from '../common-type';
+import { BaseFormUIProps } from '../form-types';
 
-export type ResetPasswordUIProps = Omit<PageUIProps, 'email' | 'setEmail'> & {
+export type ResetPasswordUIProps = BaseFormUIProps<{
   password: string;
   token: string;
-  setPassword: Dispatch<SetStateAction<string>>;
-  setToken: Dispatch<SetStateAction<string>>;
-};
+}>;

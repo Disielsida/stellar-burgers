@@ -1,6 +1,5 @@
 import { BaseFormUIProps } from '../form-types';
 
-export type LoginUIProps = BaseFormUIProps<{
+export type ForgotPasswordUIProps = BaseFormUIProps<{
   email: string;
-  password: string;
 }>;
