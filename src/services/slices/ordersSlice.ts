@@ -20,7 +20,6 @@ export const getOrdersThunk = createAsyncThunk(
 type OrdersStore = {
   orders: TOrder[];
   currentOrder: TOrder | null;
-  ordersLoaded: boolean;
 
   orderModalData: TOrder | null;
   orderRequest: boolean;
@@ -31,7 +30,6 @@ type OrdersStore = {
 const initialState: OrdersStore = {
   orders: [],
   currentOrder: null,
-  ordersLoaded: false,
 
   orderModalData: null,
   orderRequest: false,
@@ -51,7 +49,6 @@ const ordersSlice = createSlice({
   selectors: {
     ordersSelector: (state) => state.orders,
     currentOrderSelector: (state) => state.currentOrder,
-    ordersLoadedSelector: (state) => state.ordersLoaded,
     orderModalDataSelector: (state) => state.orderModalData,
     orderRequestSelector: (state) => state.orderRequest,
     orderLoadingSelector: (state) => state.loading,
@@ -92,7 +89,6 @@ const ordersSlice = createSlice({
       .addCase(getOrdersThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.orders = action.payload;
-        state.ordersLoaded = true;
       })
       .addCase(getOrdersThunk.rejected, (state, action) => {
         state.error = action.error.message || 'Ошибка загрузки ленты';
@@ -105,7 +101,6 @@ const ordersSlice = createSlice({
 export const {
   ordersSelector,
   currentOrderSelector,
-  ordersLoadedSelector,
   orderModalDataSelector,
   orderRequestSelector,
   orderLoadingSelector,
